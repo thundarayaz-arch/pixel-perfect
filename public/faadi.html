@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>faadi graphics — We Got You</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;700;900&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #111; }
+  body { display: grid; place-items: center; font-family: 'Inter', sans-serif; }
+  #canvas {
+    position: relative; overflow: hidden;
+    height: min(100vh, calc(100vw * 16 / 9)); aspect-ratio: 9 / 16;
+    max-height: 1920px;
+    background: radial-gradient(circle at center, #8FEF5A 0%, #5BC236 35%, #3A8F20 100%);
+  }
+  #canvas::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 30;
+    background: radial-gradient(circle at center, transparent 55%, rgba(0,0,0,0.28) 100%);
+  }
+  .logo {
+    position: absolute; top: 32px; left: 50%; transform: translateX(-50%);
+    color: #0D120D; font-weight: 900; font-size: 24px; letter-spacing: -1px;
+    text-transform: lowercase; z-index: 25; white-space: nowrap;
+  }
+  .footer {
+    position: absolute; bottom: 32px; left: 0; right: 0; text-align: center;
+    color: #0D120D; font-weight: 500; font-size: 10px; letter-spacing: 2px; z-index: 25; line-height: 1.7;
+  }
+  .footer b { font-weight: 700; font-size: 11px; display: block; }
+  .text {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 92%; text-align: center;
+    font-family: 'Anton', 'Inter', sans-serif; font-weight: 900; font-size: 58px;
+    line-height: 0.85; letter-spacing: -3px; text-transform: uppercase;
+    display: grid; place-items: center; min-height: 2em;
+  }
+  #answer { color: #0D120D; z-index: 1; }
+  #question { color: #FFFFFF; z-index: 2; }
+  #pendulum {
+    position: absolute; top: 0; left: 50%; width: 2px; height: 58%;
+    transform-origin: top center; z-index: 20;
+  }
+  .string { width: 2px; height: 100%; background: #0D120D; transform-origin: top center; }
+  .bob {
+    position: absolute; bottom: -40px; left: 50%; width: 80px; height: 80px;
+    margin-left: -40px; background: #FFFFFF; border-radius: 20px;
+    display: grid; place-items: center; box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+    border: 2px solid #0D120D;
+  }
+  .bob span { color: #0D120D; font-weight: 900; font-size: 42px; font-family: 'Inter', sans-serif; }
+</style>
+</head>
+<body>
+<div id="canvas">
+  <div class="logo">faadi graphics.</div>
+  <div id="answer" class="text">WE GOT<br>YOU.</div>
+  <div id="question" class="text">NEED A<br>LOGO?</div>
+  <div id="pendulum"><div class="string"></div><div class="bob"><span>F</span></div></div>
+  <div class="footer">LOGO • BRANDING • POSTERS<b>instagram.com/faadi_designer</b></div>
+</div>
+<script>
+  const questions = ["NEED A<br>LOGO?","NEED<br>BRANDING?","NEED A<br>POSTER?","NEED SOCIAL<br>POSTS?","NEED<br>PACKAGING?"];
+  let qIndex = 0, direction = 1;
+  const canvasEl = document.getElementById('canvas');
+  const pend = document.getElementById('pendulum');
+  const question = document.getElementById('question');
+  const bobEl = document.querySelector('.bob');
+  const stringEl = document.querySelector('.string');
+
+  gsap.set(pend, { rotation: -35 });
+
+  // Erase edge follows the bob center: question visible only to the right of the bob.
+  // Swinging right erases it (reveals answer); swinging left wipes the next question back in.
+  gsap.ticker.add(() => {
+    const c = canvasEl.getBoundingClientRect();
+    const b = bobEl.getBoundingClientRect();
+    const t = question.getBoundingClientRect();
+    const bobX = b.left + b.width / 2;
+    let p = ((bobX - t.left) / t.width) * 100;
+    p = Math.max(0, Math.min(100, p));
+    question.style.clipPath = `inset(0 0 0 ${p}%)`;
+    const rot = gsap.getProperty(pend, 'rotation');
+    gsap.set(bobEl, { rotation: -rot * 0.3 });
+    gsap.set(stringEl, { scaleY: 1 + 0.02 * (1 - Math.abs(rot) / 35) });
+  });
+
+  const tl = gsap.timeline({ repeat: -1 });
+  tl.to(pend, { rotation: 35, duration: 1.15, ease: 'power1.inOut',
+      onStart: () => direction = 1,
+      onComplete: () => { qIndex = (qIndex + 1) % questions.length; question.innerHTML = questions[qIndex]; } })
+    .to(pend, { rotation: -35, duration: 1.15, ease: 'power1.inOut',
+      onStart: () => direction = -1 }, '+=0.6')
+    .to({}, { duration: 0.6 });
+</script>
+</body>
+</html>
