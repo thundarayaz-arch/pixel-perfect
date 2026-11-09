@@ -17,8 +17,8 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <iframe
-      src="/faadi.html"
-      title="faadi graphics animation"
+      src="/strip.html"
+      title="Scrolling strip animation"
       className="block h-screen w-screen border-0 bg-background"
     />
   );
