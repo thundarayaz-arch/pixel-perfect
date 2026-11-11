@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Scrolling Strip</title>
+<title>Black Friday Sale Strip</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { width: 100%; height: 100%; overflow: hidden; background: #111; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #000000; }
   body { display: grid; place-items: center; font-family: 'Inter', sans-serif; }
 
   .strip {
     width: 100%;
-    background: #1a6fa8;
+    background: #000000;
     overflow: hidden;
     padding: 28px 0;
   }
@@ -33,17 +33,10 @@
   .item {
     display: flex;
     align-items: center;
-    gap: 18px;
     color: #ffffff;
     font-size: 64px;
-    font-weight: 400;
-    padding-right: 70px;
-  }
-
-  .check {
-    color: #2ecc40;
-    font-size: 64px;
-    font-weight: 700;
+    font-weight: 500;
+    padding-right: 90px;
   }
 
   @keyframes scroll {
@@ -56,14 +49,14 @@
 <div class="strip">
   <div class="track" id="track">
     <div class="group">
-      <div class="item"><span class="check">✓</span>15% OFF</div>
-      <div class="item"><span class="check">✓</span>Free Shipping</div>
-      <div class="item"><span class="check">✓</span>Money-Back Guarantee</div>
+      <div class="item">Black Friday Sale</div>
+      <div class="item">Black Friday Sale</div>
+      <div class="item">Black Friday Sale</div>
     </div>
     <div class="group" aria-hidden="true">
-      <div class="item"><span class="check">✓</span>15% OFF</div>
-      <div class="item"><span class="check">✓</span>Free Shipping</div>
-      <div class="item"><span class="check">✓</span>Money-Back Guarantee</div>
+      <div class="item">Black Friday Sale</div>
+      <div class="item">Black Friday Sale</div>
+      <div class="item">Black Friday Sale</div>
     </div>
   </div>
 </div>
